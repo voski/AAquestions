@@ -1,5 +1,9 @@
+require_relative 'save_module.rb'
+
 class User
   attr_accessor :id, :fname, :lname
+
+  include Save
 
   def initialize(params = {})
     self.id = params["id"]
@@ -59,28 +63,5 @@ class User
         questions.author_id = :user_id
       SQL
     raw_data[0]["karma"]
-  end
-
-  def save
-    if id.nil?
-      QuestionsDatabase.instance.execute(<<-SQL, fname: fname, lname: lname)
-        INSERT INTO
-          users(fname, lname)
-        VALUES
-          (:fname, :lname)
-        SQL
-        self.id = QuestionsDatabase.instance.last_insert_row_id
-    else
-      QuestionsDatabase.instance.execute(<<-SQL, fname: fname, lname: lname, user_id: id)
-        UPDATE
-          users
-        SET
-          fname = :fname, lname = :lname
-        WHERE
-          id = :user_id
-        SQL
-    end
-
-
   end
 end

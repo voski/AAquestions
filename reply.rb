@@ -1,5 +1,9 @@
+require_relative 'save_module.rb'
+
 class Reply
   attr_accessor :id, :question_id, :parent_id, :author_id, :body
+
+  include Save
 
   def initialize(params = {})
     self.id = params["id"]
@@ -78,26 +82,5 @@ class Reply
 
   def child_replies
     Reply.find_children_by_parent_id(id)
-  end
-
-  def save
-    if id.nil?
-      QuestionsDatabase.instance.execute(<<-SQL, question_id: question_id, parent_id: parent_id, author_id: author_id, body: body)
-        INSERT INTO
-          replies(question_id, parent_id, author_id, body)
-        VALUES
-          (:question_id, :parent_id, :author_id, :body)
-        SQL
-        self.id = QuestionsDatabase.instance.last_insert_row_id
-    else
-      QuestionsDatabase.instance.execute(<<-SQL, question_id: question_id, parent_id: parent_id, author_id: author_id, body: body, id: id)
-        UPDATE
-          replies
-        SET
-        question_id = :question_id, parent_id = :parent_id, author_id = :author_id, body = :body
-        WHERE
-          id = :id
-        SQL
-    end
   end
 end

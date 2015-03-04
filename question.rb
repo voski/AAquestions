@@ -1,27 +1,11 @@
-require_relative 'save.rb'
-
-class Question
+class Question < ActiveRecordLite
   attr_accessor :id, :title, :body, :author_id
-
-  include Save
 
   def initialize(params = {})
     self.id = params["id"]
     self.title = params["title"]
     self.body = params["body"]
     self.author_id = params["author_id"]
-  end
-
-  def self.find_by_id(id)
-    raw_data = QuestionsDatabase.instance.get_first_row(<<-SQL, id: id)
-      SELECT
-        *
-      FROM
-        questions
-      WHERE
-        id = :id
-      SQL
-    Question.new(raw_data)
   end
 
   def self.find_by_author_id(author_id)

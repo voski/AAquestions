@@ -1,12 +1,12 @@
 require 'sqlite3'
 require 'singleton'
+require_relative 'active_record_lite.rb'
 require_relative 'user.rb'
 require_relative 'question.rb'
 require_relative 'reply.rb'
 require_relative 'question_likes.rb'
 require_relative 'question_follows.rb'
-require 'active_support/core_ext/string'
-require_relative 'save.rb'
+
 
 class QuestionsDatabase < SQLite3::Database
   include Singleton

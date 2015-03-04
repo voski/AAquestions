@@ -1,26 +1,10 @@
-require_relative 'save.rb'
-
-class User
+class User < ActiveRecordLite
   attr_accessor :id, :fname, :lname
-
-  include Save
 
   def initialize(params = {})
     self.id = params["id"]
     self.fname = params["fname"]
     self.lname = params["lname"]
-  end
-
-  def self.find_by_id(id)
-    raw_data = QuestionsDatabase.instance.get_first_row(<<-SQL, id: id)
-      SELECT
-        *
-      FROM
-        users
-      WHERE
-        id = :id
-      SQL
-    User.new(raw_data)
   end
 
   # BONUS DIRECTIONS FOR ACTIVE RECORD LITE

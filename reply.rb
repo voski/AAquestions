@@ -1,9 +1,5 @@
-require_relative 'save.rb'
-
-class Reply
+class Reply < ActiveRecordLite
   attr_accessor :id, :question_id, :parent_id, :author_id, :body
-
-  include Save
 
   def initialize(params = {})
     self.id = params["id"]
@@ -11,18 +7,6 @@ class Reply
     self.parent_id = params["parent_id"]
     self.author_id = params["author_id"]
     self.body = params["body"]
-  end
-
-  def self.find_by_id(id)
-    raw_data = QuestionsDatabase.instance.get_first_row(<<-SQL, id: id)
-      SELECT
-        *
-      FROM
-        replies
-      WHERE
-        id = :id
-      SQL
-    Reply.new(raw_data)
   end
 
   def self.find_by_user_id(author_id)

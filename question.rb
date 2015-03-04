@@ -1,5 +1,4 @@
-require 'active_support/core_ext/string'
-require_relative 'save_module.rb'
+require_relative 'save.rb'
 
 class Question
   attr_accessor :id, :title, :body, :author_id

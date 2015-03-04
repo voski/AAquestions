@@ -1,4 +1,4 @@
-require_relative 'save_module.rb'
+require_relative 'save.rb'
 
 class Reply
   attr_accessor :id, :question_id, :parent_id, :author_id, :body

@@ -1,4 +1,4 @@
-require_relative 'save_module.rb'
+require_relative 'save.rb'
 
 class User
   attr_accessor :id, :fname, :lname

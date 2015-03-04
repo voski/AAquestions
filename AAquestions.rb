@@ -6,7 +6,7 @@ require_relative 'reply.rb'
 require_relative 'question_likes.rb'
 require_relative 'question_follows.rb'
 require 'active_support/core_ext/string'
-require_relative 'save_module.rb'
+require_relative 'save.rb'
 
 class QuestionsDatabase < SQLite3::Database
   include Singleton

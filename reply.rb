@@ -53,15 +53,15 @@ class Reply < ActiveRecordLite
   end
 
   def author
-    User.find_by_id(author_id)
+    User.find_by(id: author_id)
   end
 
   def question
-    Question.find_by_id(question_id)
+    Question.find_by(id: question_id)
   end
 
   def parent_reply
-    Reply.find_by_id(parent_id)
+    Reply.find_by(id: parent_id)
   end
 
   def child_replies

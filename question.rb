@@ -8,26 +8,12 @@ class Question < ActiveRecordLite
     self.author_id = params["author_id"]
   end
 
-  def self.find_by_author_id(author_id)
-    raw_data = QuestionsDatabase.instance.execute(<<-SQL, id: author_id)
-      SELECT
-        *
-      FROM
-        questions
-      WHERE
-        author_id = :id
-      SQL
-    raw_data.map do |question|
-      Question.new(question)
-    end
-  end
-
   def author
-    User.find_by_id(author_id)
+    User.find_by(id: author_id)
   end
 
   def replies
-    Reply.find_by_question_id(id)
+    Reply.find_by(question_id: id)
   end
 
   def followers

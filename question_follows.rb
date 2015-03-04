@@ -8,7 +8,7 @@ class QuestionFollows
   end
 
   def self.find_by_id(id)
-    raw_data = QuestionsDatabase.instance.execute(<<-SQL, id: id)
+    raw_data = QuestionsDatabase.instance.get_first_row(<<-SQL, id: id)
       SELECT
         *
       FROM
@@ -16,7 +16,7 @@ class QuestionFollows
       WHERE
         id = :id
       SQL
-    QuestionFollows.new(raw_data[0])
+    QuestionFollows.new(raw_data)
   end
 
   def self.followers_for_question_id(question_id)

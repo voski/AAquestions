@@ -13,7 +13,7 @@ class Question
   end
 
   def self.find_by_id(id)
-    raw_data = QuestionsDatabase.instance.execute(<<-SQL, id: id)
+    raw_data = QuestionsDatabase.instance.get_first_row(<<-SQL, id: id)
       SELECT
         *
       FROM
@@ -21,7 +21,7 @@ class Question
       WHERE
         id = :id
       SQL
-    Question.new(raw_data[0])
+    Question.new(raw_data)
   end
 
   def self.find_by_author_id(author_id)

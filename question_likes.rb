@@ -8,7 +8,7 @@ class QuestionLikes
   end
 
   def self.find_by_id(id)
-    raw_data = QuestionsDatabase.instance.execute(<<-SQL, id: id)
+    raw_data = QuestionsDatabase.instance.get_first_row(<<-SQL, id: id)
       SELECT
         *
       FROM
@@ -16,7 +16,7 @@ class QuestionLikes
       WHERE
         id = :id
       SQL
-    QuestionLikes.new(raw_data[0])
+    QuestionLikes.new(raw_data)
   end
 
   def self.likers_for_question_id(question_id)
@@ -37,7 +37,7 @@ class QuestionLikes
   end
 
   def self.num_likes_for_question_id(question_id)
-    raw_data = QuestionsDatabase.instance.execute(<<-SQL, id: question_id)
+    QuestionsDatabase.instance.get_first_value(<<-SQL, id: question_id)
       SELECT
         COUNT(*) AS likes
       FROM
@@ -45,8 +45,6 @@ class QuestionLikes
       WHERE
         question_likes.question_id = :id
       SQL
-
-    raw_data[0]['likes']
   end
 
   def self.liked_questions_for_user_id(user_id)

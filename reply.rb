@@ -14,7 +14,7 @@ class Reply
   end
 
   def self.find_by_id(id)
-    raw_data = QuestionsDatabase.instance.execute(<<-SQL, id: id)
+    raw_data = QuestionsDatabase.instance.get_first_row(<<-SQL, id: id)
       SELECT
         *
       FROM
@@ -22,7 +22,7 @@ class Reply
       WHERE
         id = :id
       SQL
-    Reply.new(raw_data[0])
+    Reply.new(raw_data)
   end
 
   def self.find_by_user_id(author_id)
